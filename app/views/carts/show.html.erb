@@ -4,6 +4,7 @@
     <h1>My Cart</h1>
   </header>
 
+  <% if enhanced_cart.present? %>
   <div class="panel panel-default items">
     <table class="table table-bordered">
       <thead>
@@ -48,5 +49,10 @@
       <% end %>
     </div>
   </div>
-
+  <% else %>
+  <div>
+    <h2>Your cart is empty.</h2>
+    <button type="button" class="return-button">Return to Home Page</button>
+  </div>
+  <% end %>
 </section>
