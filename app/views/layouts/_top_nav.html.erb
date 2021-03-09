@@ -33,9 +33,7 @@
 
       <% if current_user %>
  
-        <span class="status">
         Signed in as <%= current_user.first_name %> | <%= link_to "Logout", '/logout' %>
-        </span>
 
       <% else %>
       <li>
