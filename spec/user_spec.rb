@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Product, type: :model do
+RSpec.describe User, type: :model do
   describe 'Validations' do
   it 'creates a new user' do
     @user = User.new(first_name: 'Monica', last_name: 'Geller', email: 'email@email.com', password: 'password', password_confirmation: 'password')
@@ -37,6 +37,37 @@ RSpec.describe Product, type: :model do
     @user = User.new(first_name: 'Rachel', last_name: 'Green', email: 'email@email.com', password: 'four', password_confirmation: 'four')
     expect(@user).not_to be_valid
     @user.errors.full_messages
+  end
+  end
+
+  describe '.authenticate_with_credentials' do
+  it 'authenticates user with correct credentials' do
+    @user = User.create(first_name: 'Chandler', last_name: 'Bing', email:'friends@friends.com', password: 'friends11', password_confirmation: 'friends11')
+    @login = User.authenticate_with_credentials('friends@friends.com', 'friends11')
+    expect(@login).to eq @user
+    @login.errors.full_messages
+  end
+  it 'does not authenticate user with incorrect password' do
+    @user = User.create(first_name: 'Chandler', last_name: 'Bing', email:'friends@friends.com', password: 'friends11', password_confirmation: 'friends11')
+    @login = User.authenticate_with_credentials('friends@friends.com', 'friends00')
+    expect(@login).to be nil
+  end
+  it 'does not authenticate user with incorrect email' do
+    @user = User.create(first_name: 'Chandler', last_name: 'Bing', email:'friends@friends.com', password: 'friends11', password_confirmation: 'friends11')
+    @login = User.authenticate_with_credentials('test@test.com', 'friends11')
+    expect(@login).to be nil
+  end
+  it 'authenticates user with spaces before correct email' do
+    @user = User.create(first_name: 'Chandler', last_name: 'Bing', email:'friends@friends.com', password: 'friends11', password_confirmation: 'friends11')
+    @login = User.authenticate_with_credentials('   friends@friends.com   ', 'friends11')
+    expect(@login).to eq @user
+    @login.errors.full_messages
+  end
+  it 'authenticates user with different case for correct email' do 
+    @user = User.create(first_name: 'Chandler', last_name: 'Bing', email:'friends@friends.com', password: 'friends11', password_confirmation: 'friends11')
+    @login = User.authenticate_with_credentials('FRIENDS@friends.COM', 'friends11')
+    expect(@login).to eq @user
+    @login.errors.full_messages
   end
   end
 end
