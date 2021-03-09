@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
   end
   it 'is not valid without a unique email' do
     @user1 = User.create(first_name: 'Phoebe', last_name: 'Buffay', email: 'email@email.com', password: 'password', password_confirmation: 'password')
-    @user2 = User.create(first_name: 'Phoebe', last_name: 'Buffay', email: 'EMAIL@EMAIL.com', password: 'password', password_confirmation: 'password')
+    @user2 = User.create(first_name: 'Phoebe', last_name: 'Buffay', email: 'EMAIL@email.com', password: 'password', password_confirmation: 'password')
     expect(@user2).not_to be_valid
     @user2.errors.full_messages
   end
